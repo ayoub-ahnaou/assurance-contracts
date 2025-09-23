@@ -3,20 +3,24 @@ package controllers;
 import models.Client;
 import services.ClientService;
 
+import java.util.List;
+import java.util.Optional;
+
 public class ClientController {
     ClientService clientService = new ClientService();
 
-    public void createClient(int id, String nom, String prenom, String email) {
-        clientService.createClient(id, nom, prenom, email);
+    public void createClient(String id, String nom, String prenom, String email, String conseillerId) {
+        Client client = new Client(id, nom, prenom, email, conseillerId);
+        clientService.createClient(client);
     }
 
-    public void getAccount(int id) {
-        Client client = clientService.getAccount(id);
-        if(client == null) System.out.println("Client don't exist!");
-        else System.out.println(client.toString());
+    public Optional<Client> searchClientById(String id) {
+        Optional<Client> client = clientService.getAccount(id);
+        if(client == null) return null;
+        else return client;
     }
 
-    public void getAccounts() {
-        clientService.getAccounts();
+    public List<Client> getAllClientsSortedByLastName() {
+        return clientService.getAccounts();
     }
 }
