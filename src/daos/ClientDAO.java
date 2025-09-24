@@ -3,41 +3,99 @@ package daos;
 import config.Database;
 import models.Client;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 public class ClientDAO {
     private Map<String, Client> clients = new HashMap<>();
 
-    // insert client into database
-    public void createClient(Client client) {
-        try {
-            Connection connection = Database.getConnection();
-            String sql = "INSERT INTO clients (id, nom, prenom, email, conseiller_id) VALUES (?, ?, ?, ?, ?)";
-
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, client.getId());
-            stm.setString(2, client.getNome());
-            stm.setString(3, client.getPrenom());
-            stm.setString(4, client.getEmail());
-            stm.setString(5, client.getConseiller_id());
-
-            stm.executeUpdate();
-            System.out.println("Client created...");
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
+    // CREATE NEW RECORD
+    public void addClient(Client client) {
+        String sql = "INSERT INTO clients (id, nom, prenom, email, conseiller_id) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = Database.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, client.getId());
+            stmt.setString(2, client.getNom());
+            stmt.setString(3, client.getPrenom());
+            stmt.setString(4, client.getEmail());
+            stmt.setString(5, client.getConseillerId());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    // get one account details
-    public Optional<Client> getAccount(String id) {
-        return Optional.of(clients.get(id));
+    // GET ONE CLIENT
+    public Client getClientById(String id) {
+        String sql = "SELECT * FROM clients WHERE id = ?";
+        try (PreparedStatement stmt = Database.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Client(
+                        rs.getString("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("conseiller_id")
+                );
+            }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    // get all accounts
-    public List<Client> getAccounts() {
-        return new ArrayList<>(clients.values());
+    // GET ALL CLIENTS
+    public List<Client> getAllClients() {
+        List<Client> clients = new ArrayList<>();
+        String sql = "SELECT * FROM clients";
+        try (Statement stmt = Database.getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                clients.add(new Client(
+                        rs.getString("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("conseiller_id")
+                ));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return clients;
+    }
+
+    // DELETE A CLIENT BY ID
+    public void deleteClient(String id) {
+        String sql = "DELETE FROM clients WHERE id = ?";
+        try (PreparedStatement stmt = Database.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // GET ALL CLIENTS BY ADVISOR
+    public List<Client> getClientsByConseiller(String conseillerId) {
+        List<Client> clients = new ArrayList<>();
+        String sql = "SELECT * FROM clients WHERE conseiller_id = ?";
+        try (PreparedStatement stmt = Database.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, conseillerId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                clients.add(new Client(
+                        rs.getString("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("conseiller_id")
+                ));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return clients;
     }
 }
