@@ -1,18 +1,18 @@
 package models;
 
 public class Client extends Person {
-    private String conseiller_id;
+    private String conseillerId;
 
-    public String getConseiller_id() {
-        return conseiller_id;
+    public String getConseillerId() {
+        return conseillerId;
     }
 
-    public void setConseiller_id(String conseiller_id) {
-        this.conseiller_id = conseiller_id;
+    public void setConseiller_id(String conseillerId) {
+        this.conseillerId = conseillerId;
     }
 
-    public Client(String id, String nom, String prenom, String email, String conseiller_id) {
+    public Client(String id, String nom, String prenom, String email, String conseillerId) {
         super(id, nom, prenom, email);
-        this.conseiller_id = conseiller_id;
+        this.conseillerId = conseillerId;
     }
 }
