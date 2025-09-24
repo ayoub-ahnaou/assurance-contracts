@@ -9,18 +9,23 @@ import java.util.Optional;
 public class ClientController {
     ClientService clientService = new ClientService();
 
-    public void createClient(String id, String nom, String prenom, String email, String conseillerId) {
-        Client client = new Client(id, nom, prenom, email, conseillerId);
+    public void addClient(Client client) {
         clientService.createClient(client);
     }
 
-    public Optional<Client> searchClientById(String id) {
-        Optional<Client> client = clientService.getAccount(id);
-        if(client == null) return null;
-        else return client;
+    public Client getClientById(String id) {
+        return clientService.getClient(id);
     }
 
-    public List<Client> getAllClientsSortedByLastName() {
-        return clientService.getAccounts();
+    public List<Client> getAllClients() {
+        return clientService.getAllClients();
+    }
+
+    public void deleteClient(String id) {
+        clientService.deleteClient(id);
+    }
+
+    public List<Client> getClientsByConseiller(String conseillerId) {
+        return clientService.getClientsByConseiller(conseillerId);
     }
 }
