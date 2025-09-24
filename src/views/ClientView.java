@@ -2,9 +2,9 @@ package views;
 
 import controllers.ClientController;
 import models.Client;
+import models.Contrat;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -12,138 +12,89 @@ public class ClientView {
     ClientController controller = new ClientController();
     Scanner scanner = new Scanner(System.in);
 
-    public void menu() {
-        int choix;
+    public void showMenu() {
+        while (true) {
+            System.out.println("\n===== Client Management =====");
+            System.out.println("1. Add Client");
+            System.out.println("2. View Client by ID");
+            System.out.println("3. View All Clients");
+            System.out.println("4. Delete Client");
+            System.out.println("5. View Clients by Conseiller");
+            System.out.println("0. Exit");
+            System.out.print("Choose option: ");
 
-        do {
-            System.out.println("\n=== MENU GESTION CLIENTS ===");
-            System.out.println("1. Ajouter un client");
-            System.out.println("2. Supprimer un client par ID");
-            System.out.println("3. Rechercher un client par nom de famille");
-            System.out.println("4. Rechercher un client par ID");
-            System.out.println("5. Afficher les clients d'un conseiller");
-            System.out.println("6. Trie les clients par nom de famille");
-            System.out.println("0. Quitter");
-            System.out.print("Votre choix: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
 
-            choix = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choix) {
-                case 1:
-                    this.createClient();
-                    break;
+            switch (choice) {
+                case 1: addClient(); break;
+                case 2: viewClientById(); break;
+                case 3: viewAllClients(); break;
+                case 4: deleteClient(); break;
+                case 5: viewClientsByConseiller(); break;
                 case 0:
-                    System.out.println("Au revoir !");
+                    System.out.println("Bye 👋");
                     break;
-                default:
-                    System.out.println("Choix invalide !");
+                default: System.out.println("Invalid choice, try again."); break;
             }
-
-            if (choix != 0) {
-                System.out.print("\nAppuyez sur Entrée pour continuer...");
-                scanner.nextLine();
-            }
-
-        } while (choix != 0);
+        }
     }
 
-    public void createClient() {
-        System.out.print("Enter nom: ");
+    private void addClient() {
+        String id = UUID.randomUUID().toString();
+        System.out.print("Enter Nom: ");
         String nom = scanner.nextLine();
-
-        System.out.print("Enter prenom: ");
+        System.out.print("Enter Prenom: ");
         String prenom = scanner.nextLine();
-
-        System.out.print("Enter email: ");
+        System.out.print("Enter Email: ");
         String email = scanner.nextLine();
-
-        System.out.print("Enter conseiller id: ");
+        System.out.print("Enter conseiller Id: ");
         String conseillerId = scanner.nextLine();
 
-        controller.createClient(
-                UUID.randomUUID().toString(),
-                nom,
-                prenom,
-                email,
-                conseillerId
-        );
+        Client client = new Client(id, nom, prenom, email, conseillerId);
+        controller.addClient(client);
     }
 
-    /*
-    void deleteClient() {
-        System.out.print("Entrez l'ID du client à supprimer: ");
-        String clientId = scanner.nextLine();
+    private void viewClientById() {
+        System.out.print("Enter Client ID: ");
+        String id = scanner.nextLine();
+        Client client = controller.getClientById(id);
+        System.out.println(client != null ? client : "Client not found.");
+    }
 
-        boolean success = controller.deleteClient(clientId);
-        if (success) {
-            System.out.println("Client supprimé avec succès !");
+    private void viewAllClients() {
+        List<Client> clients = controller.getAllClients();
+        if (clients != null && !clients.isEmpty()) {
+            clients.forEach(System.out::println);
         } else {
-            System.out.println("Erreur: Client non trouvé !");
+            System.out.println("No clients found.");
         }
     }
 
-    void searchClientByLastName() {
-        System.out.print("Entrez le nom de famille à rechercher: ");
-        String lastName = scanner.nextLine();
+    private void deleteClient() {
+        System.out.print("Enter Client ID to delete: ");
+        String id = scanner.nextLine();
+        controller.deleteClient(id);
+    }
 
-        List<Client> clients = controller.searchClientsByLastName(lastName);
-
-        if (clients.isEmpty()) {
-            System.out.println("Aucun client trouvé avec ce nom de famille.");
+    private void viewClientsByConseiller() {
+        System.out.print("Enter Conseiller ID: ");
+        String conseillerId = scanner.nextLine();
+        List<Client> clients = controller.getClientsByConseiller(conseillerId);
+        if (clients != null && !clients.isEmpty()) {
+            clients.forEach(System.out::println);
         } else {
-            System.out.println("\n=== CLIENTS TROUVÉS ===");
-            clients.forEach(client ->
-                    System.out.printf("ID: %s | Nom: %s %s | Email: %s%n",
-                            client.getId(), client.getPrenom(), client.getNome(), client.getEmail()));
+            System.out.println("No clients found for this conseiller.");
         }
     }
 
-    void searchClientById() {
-        System.out.print("Entrez l'ID du client: ");
-        String clientId = scanner.nextLine();
-
-        Optional<Client> client = controller.searchClientById(clientId);
-
-        if (client.isPresent()) {
-            Client c = client.get();
-            System.out.println("\n=== CLIENT TROUVÉ ===");
-            System.out.printf("ID: %s%n", c.getId());
-            System.out.printf("Nom: %s %s%n", c.getPrenom(), c.getNome());
-            System.out.printf("Email: %s%n", c.getEmail());
-            System.out.printf("Conseiller ID: %s%n", c.getConseiller_id());
-        } else {
-            System.out.println("Client non trouvé !");
-        }
+    private void printClient(Contrat c) {
+        System.out.println("ID: " + c.getId());
+        System.out.println("Date début: " + c.getDateDebut());
+        System.out.println("Date fin: " + c.getDateFin());
+        System.out.println("Montant: " + c.getMontant());
+        System.out.println("Description: " + c.getDescription());
+        System.out.println("Type: " + c.getTypeContratEnum());
+        System.out.println("---------------------------");
     }
-
-    void displayClientsByAdvisor() {
-        System.out.print("Entrez l'ID du conseiller: ");
-        String advisorId = scanner.nextLine();
-
-        List<Client> clients = controller.getClientsByAdvisorId(advisorId); // fix return function in controller
-
-        if (clients.isEmpty()) {
-            System.out.println("Aucun client trouvé pour ce conseiller.");
-        } else {
-            System.out.printf("\n=== CLIENTS DU CONSEILLER %s ===%n", advisorId);
-            clients.forEach(client ->
-                    System.out.printf("ID: %s | Nom: %s %s | Email: %s%n",
-                            client.getId(), client.getPrenom(), client.getNome(), client.getEmail()));
-        }
-    }
-
-    void sortClientsByLastName() {
-        List<Client> clients = controller.getAllClientsSortedByLastName();
-
-        if (clients.isEmpty()) {
-            System.out.println("Aucun client dans la base de données.");
-        } else {
-            System.out.println("\n=== CLIENTS TRIÉS PAR NOM ===");
-            clients.forEach(client ->
-                    System.out.printf("Nom: %s | Prénom: %s | Email: %s | ID: %s%n",
-                            client.getNome(), client.getPrenom(), client.getEmail(), client.getId()));
-        }
-    }
-     */
 }
