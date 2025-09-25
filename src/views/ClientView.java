@@ -3,10 +3,13 @@ package views;
 import controllers.ClientController;
 import models.Client;
 import models.Contrat;
+import models.Person;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ClientView {
     ClientController controller = new ClientController();
@@ -20,6 +23,7 @@ public class ClientView {
             System.out.println("3. View All Clients");
             System.out.println("4. Delete Client");
             System.out.println("5. View Clients by Conseiller");
+            System.out.println("6. Trie clients par ordre alphabitique");
             System.out.println("0. Exit");
             System.out.print("Choose option: ");
 
@@ -32,9 +36,9 @@ public class ClientView {
                 case 3: viewAllClients(); break;
                 case 4: deleteClient(); break;
                 case 5: viewClientsByConseiller(); break;
+                case 6: sortClients(); break;
                 case 0:
-                    System.out.println("Bye 👋");
-                    break;
+                    System.out.println("Bye"); break;
                 default: System.out.println("Invalid choice, try again."); break;
             }
         }
@@ -65,7 +69,7 @@ public class ClientView {
     private void viewAllClients() {
         List<Client> clients = controller.getAllClients();
         if (clients != null && !clients.isEmpty()) {
-            clients.forEach(System.out::println);
+            clients.forEach(this::printClient);
         } else {
             System.out.println("No clients found.");
         }
@@ -82,19 +86,24 @@ public class ClientView {
         String conseillerId = scanner.nextLine();
         List<Client> clients = controller.getClientsByConseiller(conseillerId);
         if (clients != null && !clients.isEmpty()) {
-            clients.forEach(System.out::println);
+            clients.forEach(this::printClient);
         } else {
             System.out.println("No clients found for this conseiller.");
         }
     }
 
-    private void printClient(Contrat c) {
+    private void sortClients() {
+        List<Client> clients = controller.getAllClients();
+        clients.stream()
+                .sorted(Comparator.comparing(Client::getNom).reversed())
+                .forEach(this::printClient);
+    }
+
+    private void printClient(Client c) {
         System.out.println("ID: " + c.getId());
-        System.out.println("Date début: " + c.getDateDebut());
-        System.out.println("Date fin: " + c.getDateFin());
-        System.out.println("Montant: " + c.getMontant());
-        System.out.println("Description: " + c.getDescription());
-        System.out.println("Type: " + c.getTypeContratEnum());
+        System.out.println("Date début: " + c.getNom());
+        System.out.println("Date fin: " + c.getPrenom());
+        System.out.println("Montant: " + c.getEmail());
         System.out.println("---------------------------");
     }
 }
