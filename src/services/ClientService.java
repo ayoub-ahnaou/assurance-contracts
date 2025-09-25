@@ -23,13 +23,12 @@ public class ClientService {
     public Client getClient(String id) {
         try {
             Optional<Client> optionalClient = Optional.ofNullable(dao.getClientById(id).orElseThrow(null));
-            Client client = new Client(
+            return new Client(
                     optionalClient.get().id,
                     optionalClient.get().nom,
                     optionalClient.get().prenom,
                     optionalClient.get().email,
                     optionalClient.get().getConseillerId());
-            return client;
         } catch (Exception e) {
             throw new RuntimeException("Failed to fetch client: " + e.getMessage());
         }
