@@ -4,6 +4,7 @@ import daos.ClientDAO;
 import models.Client;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ClientService {
     private ClientDAO dao = new ClientDAO();
@@ -21,14 +22,16 @@ public class ClientService {
     // READ (one)
     public Client getClient(String id) {
         try {
-            Client client = dao.getClientById(id);
-            if (client == null) {
-                System.out.println("Client not found with id: " + id);
-            }
+            Optional<Client> optionalClient = Optional.ofNullable(dao.getClientById(id).orElseThrow(null));
+            Client client = new Client(
+                    optionalClient.get().id,
+                    optionalClient.get().nom,
+                    optionalClient.get().prenom,
+                    optionalClient.get().email,
+                    optionalClient.get().getConseillerId());
             return client;
         } catch (Exception e) {
-            System.err.println("Failed to fetch client: " + e.getMessage());
-            return null;
+            throw new RuntimeException("Failed to fetch client: " + e.getMessage());
         }
     }
 
