@@ -5,21 +5,21 @@ import enums.TypeSinistre;
 import java.time.LocalDate;
 
 public class Sinistre {
-    private int id;
+    private String id;
     private LocalDate dateDebut;
     private Enum<TypeSinistre> typeSinistreEnum;
 
-    public Sinistre(int id, LocalDate dateDebut, TypeSinistre typeSinistreEnum) {
+    public Sinistre(String id, LocalDate dateDebut, TypeSinistre typeSinistreEnum) {
         this.id = id;
         this.dateDebut = dateDebut;
         this.typeSinistreEnum = typeSinistreEnum;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
