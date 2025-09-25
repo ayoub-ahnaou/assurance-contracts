@@ -63,7 +63,7 @@ public class ClientView {
         System.out.print("Enter Client ID: ");
         String id = scanner.nextLine();
         Client client = controller.getClientById(id);
-        System.out.println(client != null ? client : "Client not found.");
+        printClient(client);
     }
 
     private void viewAllClients() {
@@ -95,15 +95,15 @@ public class ClientView {
     private void sortClients() {
         List<Client> clients = controller.getAllClients();
         clients.stream()
-                .sorted(Comparator.comparing(Client::getNom).reversed())
+                .sorted(Comparator.comparing(Client::getNom))
                 .forEach(this::printClient);
     }
 
     private void printClient(Client c) {
         System.out.println("ID: " + c.getId());
-        System.out.println("Date début: " + c.getNom());
-        System.out.println("Date fin: " + c.getPrenom());
-        System.out.println("Montant: " + c.getEmail());
+        System.out.println("Nom: " + c.getNom());
+        System.out.println("Prenom: " + c.getPrenom());
+        System.out.println("Email: " + c.getEmail());
         System.out.println("---------------------------");
     }
 }
