@@ -25,21 +25,21 @@ public class ClientDAO {
     }
 
     // GET ONE CLIENT
-    public Client getClientById(String id) {
+    public Optional<Client> getClientById(String id) {
         String sql = "SELECT * FROM clients WHERE id = ?";
         try (PreparedStatement stmt = Database.getConnection().prepareStatement(sql)) {
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Client(
+                return Optional.of(new Client(
                         rs.getString("id"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("email"),
                         rs.getString("conseiller_id")
-                );
+                ));
             }
-            return null;
+            return Optional.empty();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
