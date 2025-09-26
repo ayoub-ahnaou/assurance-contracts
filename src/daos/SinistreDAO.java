@@ -16,13 +16,14 @@ public class SinistreDAO {
     private Map<String, Sinistre> sinistres = new HashMap<>();
 
     // CREATE
-    public void addSinistre(Sinistre sinistre, String contratId) {
-        String sql = "INSERT INTO sinistres (id, dateDebut, typeSinistre, contrat_id) VALUES (?, ?, ?, ?)";
+    public void addSinistre(Sinistre sinistre) {
+        String sql = "INSERT INTO sinistres (id, dateDebut, montant, typeSinistre, contrat_id) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = Database.getConnection().prepareStatement(sql)) {
             stmt.setString(1, String.valueOf(sinistre.getId()));
             stmt.setTimestamp(2, Timestamp.valueOf(sinistre.getDateDebut().atStartOfDay()));
-            stmt.setString(3, sinistre.getTypeSinistreEnum().name());
-            stmt.setString(4, contratId);
+            stmt.setDouble(3, sinistre.getMontant());
+            stmt.setString(4, sinistre.getTypeSinistreEnum().name());
+            stmt.setString(5, sinistre.getContratId());
             stmt.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -39,7 +40,9 @@ public class SinistreDAO {
                 return new Sinistre(
                         rs.getString("id"),
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
-                        TypeSinistre.valueOf(rs.getString("typeSinistre"))
+                        rs.getDouble("montant"),
+                        TypeSinistre.valueOf(rs.getString("typeSinistre")),
+                        rs.getString("contrat_id")
                 );
             }
         } catch (Exception e) {
@@ -58,7 +61,9 @@ public class SinistreDAO {
                 sinistres.add(new Sinistre(
                         rs.getString("id"),
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
-                        TypeSinistre.valueOf(rs.getString("typeSinistre"))
+                        rs.getDouble("montant"),
+                        TypeSinistre.valueOf(rs.getString("typeSinistre")),
+                        rs.getString("contrat_id")
                 ));
             }
         } catch (Exception e) {
@@ -89,7 +94,9 @@ public class SinistreDAO {
                 sinistres.add(new Sinistre(
                         rs.getString("id"),
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
-                        TypeSinistre.valueOf(rs.getString("typeSinistre"))
+                        rs.getDouble("montant"),
+                        TypeSinistre.valueOf(rs.getString("typeSinistre")),
+                        rs.getString("contrat_id")
                 ));
             }
         } catch (Exception e) {

@@ -1,16 +1,20 @@
 package services;
 
+import daos.ContratDAO;
 import daos.SinistreDAO;
+import models.Contrat;
 import models.Sinistre;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SinistreService {
     private SinistreDAO sinistreDAO = new SinistreDAO();
 
-    public void addSinistre(Sinistre sinistre, String contratId) {
+    public void addSinistre(Sinistre sinistre) {
         try {
-            sinistreDAO.addSinistre(sinistre, contratId);
+            sinistreDAO.addSinistre(sinistre);
             System.out.println("Sinistre ajouté avec succès !");
         } catch (Exception e) {
             throw new RuntimeException("Erreur lors de l'ajout du sinistre", e);
@@ -48,5 +52,11 @@ public class SinistreService {
         } catch (Exception e) {
             throw new RuntimeException("Erreur lors de la récupération des sinistres du contrat", e);
         }
+    }
+
+    public List<Sinistre> sortSinistreByAmount() {
+        return sinistreDAO.getAllSinistres().stream()
+                .sorted(Comparator.comparing(Sinistre::getMontant).reversed())
+                .collect(Collectors.toList());
     }
 }

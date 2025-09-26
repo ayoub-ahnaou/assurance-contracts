@@ -10,9 +10,9 @@ import java.util.List;
 public class SinistreController {
     private SinistreService sinistreService = new SinistreService();
 
-    public void addSinistre(String id, LocalDate dateDebut, TypeSinistre typeSinistre, String contratId) {
-        Sinistre sinistre = new Sinistre(id, dateDebut, typeSinistre);
-        sinistreService.addSinistre(sinistre, contratId);
+    public void addSinistre(String id, LocalDate dateDebut, double montant, TypeSinistre typeSinistre, String contratId) {
+        Sinistre sinistre = new Sinistre(id, dateDebut, montant, typeSinistre, contratId);
+        sinistreService.addSinistre(sinistre);
     }
 
     public Sinistre getSinistreById(String id) {
@@ -29,5 +29,9 @@ public class SinistreController {
 
     public List<Sinistre> getSinistresByContrat(String contratId) {
         return sinistreService.getSinistresByContrat(contratId);
+    }
+
+    public List<Sinistre> sortSinistreByAmount() {
+        return sinistreService.sortSinistreByAmount();
     }
 }
