@@ -5,8 +5,10 @@ import daos.SinistreDAO;
 import models.Contrat;
 import models.Sinistre;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class SinistreService {
@@ -57,6 +59,20 @@ public class SinistreService {
     public List<Sinistre> sortSinistreByAmount() {
         return sinistreDAO.getAllSinistres().stream()
                 .sorted(Comparator.comparing(Sinistre::getMontant).reversed())
+                .collect(Collectors.toList());
+    }
+
+    public List<Sinistre> listSinistresBeforeDate(LocalDate date) {
+        List<Sinistre> sinistres = sinistreDAO.getAllSinistres();
+        return sinistres.stream()
+                .filter(s -> s.getDateDebut().isBefore(date))
+                .collect(Collectors.toList());
+    }
+
+    public List<Sinistre> listSinistresAboveCout(double montant) {
+        List<Sinistre> sinistres = sinistreDAO.getAllSinistres();
+        return sinistres.stream()
+                .filter(sinistre -> sinistre.getMontant() >= montant)
                 .collect(Collectors.toList());
     }
 }
