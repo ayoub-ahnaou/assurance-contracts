@@ -18,14 +18,14 @@ public class ClientView {
     public void showMenu() {
         while (true) {
             System.out.println("\n===== Client Management =====");
-            System.out.println("1. Add Client");
-            System.out.println("2. View Client by ID");
-            System.out.println("3. View All Clients");
-            System.out.println("4. Delete Client");
-            System.out.println("5. View Clients by Conseiller");
+            System.out.println("1. Ajouter Client");
+            System.out.println("2. Afficher client par ID");
+            System.out.println("3. Afficher tous les Clients");
+            System.out.println("4. Supprimer Client");
+            System.out.println("5. Afficher clients par Conseiller");
             System.out.println("6. Trie clients par ordre alphabitique");
-            System.out.println("0. Exit");
-            System.out.print("Choose option: ");
+            System.out.println("0. Retour");
+            System.out.print("Choisissez une option: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
