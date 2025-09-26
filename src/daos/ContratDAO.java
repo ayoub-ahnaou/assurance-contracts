@@ -42,7 +42,8 @@ public class ContratDAO {
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
                         rs.getTimestamp("dateFin").toLocalDateTime().toLocalDate(),
                         rs.getString("description"),
-                        TypeContrat.valueOf(rs.getString("typeContrat"))
+                        TypeContrat.valueOf(rs.getString("typeContrat")),
+                        rs.getString("client_id")
                 ));
             }
         } catch (Exception e) {
@@ -63,7 +64,8 @@ public class ContratDAO {
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
                         rs.getTimestamp("dateFin").toLocalDateTime().toLocalDate(),
                         rs.getString("description"),
-                        TypeContrat.valueOf(rs.getString("typeContrat"))
+                        TypeContrat.valueOf(rs.getString("typeContrat")),
+                        rs.getString("client_id")
                 ));
             }
         } catch (Exception e) {
@@ -96,7 +98,8 @@ public class ContratDAO {
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
                         rs.getTimestamp("dateFin").toLocalDateTime().toLocalDate(),
                         rs.getString("description"),
-                        TypeContrat.valueOf(rs.getString("typeContrat"))
+                        TypeContrat.valueOf(rs.getString("typeContrat")),
+                        rs.getString("client_id")
                 ));
             }
         } catch (Exception e) {

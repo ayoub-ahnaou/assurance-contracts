@@ -30,7 +30,8 @@ public class ContratService {
                     optionalContrat.get().getDateDebut(),
                     optionalContrat.get().getDateFin(),
                     optionalContrat.get().getDescription(),
-                    (TypeContrat) optionalContrat.get().getTypeContratEnum());
+                    (TypeContrat) optionalContrat.get().getTypeContratEnum(),
+                    optionalContrat.get().getClientId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;

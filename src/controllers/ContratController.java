@@ -11,7 +11,7 @@ public class ContratController {
     private ContratService contratService = new ContratService();
 
     public void addContrat(String id, LocalDate dateDebut, LocalDate dateFin, String description, TypeContrat typeContrat, String clientId) {
-        Contrat contrat = new Contrat(id, dateDebut, dateFin, description, typeContrat);
+        Contrat contrat = new Contrat(id, dateDebut, dateFin, description, typeContrat, clientId);
         contratService.addContrat(contrat, clientId);
     }
 
