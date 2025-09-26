@@ -10,8 +10,8 @@ import java.util.List;
 public class ContratController {
     private ContratService contratService = new ContratService();
 
-    public void addContrat(String id, LocalDate dateDebut, LocalDate dateFin, double montant, String description, TypeContrat typeContrat, String clientId) {
-        Contrat contrat = new Contrat(id, dateDebut, dateFin, montant, description, typeContrat);
+    public void addContrat(String id, LocalDate dateDebut, LocalDate dateFin, String description, TypeContrat typeContrat, String clientId) {
+        Contrat contrat = new Contrat(id, dateDebut, dateFin, description, typeContrat);
         contratService.addContrat(contrat, clientId);
     }
 

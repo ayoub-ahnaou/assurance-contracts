@@ -15,16 +15,15 @@ public class ContratDAO {
 
     // CREATE
     public void addContrat(Contrat contrat, String clientId) {
-        String sql = "INSERT INTO contrats (id, dateDebut, dateFin, montant, description, typeContrat, client_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO contrats (id, dateDebut, dateFin, description, typeContrat, client_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = Database.getConnection().prepareStatement(sql)) {
             stmt.setString(1, String.valueOf(contrat.getId()));
             stmt.setTimestamp(2, Timestamp.valueOf(contrat.getDateDebut().atStartOfDay()));
             stmt.setTimestamp(3, Timestamp.valueOf(contrat.getDateFin().atStartOfDay()));
-            stmt.setDouble(4, contrat.getMontant());
-            stmt.setString(5, contrat.getDescription());
-            stmt.setString(6, contrat.getTypeContratEnum().name());
-            stmt.setString(7, clientId);
+            stmt.setString(4, contrat.getDescription());
+            stmt.setString(5, contrat.getTypeContratEnum().name());
+            stmt.setString(6, clientId);
             stmt.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -42,7 +41,6 @@ public class ContratDAO {
                         rs.getString("id"),
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
                         rs.getTimestamp("dateFin").toLocalDateTime().toLocalDate(),
-                        rs.getDouble("montant"),
                         rs.getString("description"),
                         TypeContrat.valueOf(rs.getString("typeContrat"))
                 ));
@@ -64,7 +62,6 @@ public class ContratDAO {
                         rs.getString("id"),
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
                         rs.getTimestamp("dateFin").toLocalDateTime().toLocalDate(),
-                        rs.getDouble("montant"),
                         rs.getString("description"),
                         TypeContrat.valueOf(rs.getString("typeContrat"))
                 ));
@@ -98,7 +95,6 @@ public class ContratDAO {
                         rs.getString("id"),
                         rs.getTimestamp("dateDebut").toLocalDateTime().toLocalDate(),
                         rs.getTimestamp("dateFin").toLocalDateTime().toLocalDate(),
-                        rs.getDouble("montant"),
                         rs.getString("description"),
                         TypeContrat.valueOf(rs.getString("typeContrat"))
                 ));

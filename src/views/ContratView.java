@@ -64,9 +64,6 @@ public class ContratView {
         System.out.print("Date de fin (yyyy-MM-dd): ");
         LocalDate dateFin = LocalDate.parse(scanner.nextLine(), formatter);
 
-        System.out.print("Montant: ");
-        double montant = Double.parseDouble(scanner.nextLine());
-
         System.out.print("Description: ");
         String description = scanner.nextLine();
 
@@ -76,7 +73,7 @@ public class ContratView {
         System.out.print("Client ID: ");
         String clientId = scanner.nextLine();
 
-        controller.addContrat(id, dateDebut, dateFin, montant, description, type, clientId);
+        controller.addContrat(id, dateDebut, dateFin, description, type, clientId);
     }
 
     private void viewContratById() {
@@ -121,7 +118,6 @@ public class ContratView {
         System.out.println("ID: " + c.getId());
         System.out.println("Date début: " + c.getDateDebut());
         System.out.println("Date fin: " + c.getDateFin());
-        System.out.println("Montant: " + c.getMontant());
         System.out.println("Description: " + c.getDescription());
         System.out.println("Type: " + c.getTypeContratEnum());
         System.out.println("---------------------------");

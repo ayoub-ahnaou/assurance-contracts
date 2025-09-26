@@ -29,7 +29,6 @@ public class ContratService {
                     optionalContrat.get().getId(),
                     optionalContrat.get().getDateDebut(),
                     optionalContrat.get().getDateFin(),
-                    optionalContrat.get().getMontant(),
                     optionalContrat.get().getDescription(),
                     (TypeContrat) optionalContrat.get().getTypeContratEnum());
         } catch (Exception e) {

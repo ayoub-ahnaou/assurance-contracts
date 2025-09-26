@@ -8,15 +8,13 @@ public class Contrat {
     private String id;
     private LocalDate dateDebut;
     private LocalDate dateFin;
-    private double montant;
     private String description;
     private Enum<TypeContrat> typeContratEnum;
 
-    public Contrat(String id, LocalDate dateDebut, LocalDate dateFin, double montant, String description, TypeContrat typeContratEnum) {
+    public Contrat(String id, LocalDate dateDebut, LocalDate dateFin, String description, TypeContrat typeContratEnum) {
         this.id = id;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        this.montant = montant;
         this.description = description;
         this.typeContratEnum = typeContratEnum;
     }
@@ -43,14 +41,6 @@ public class Contrat {
 
     public void setDateFin(LocalDate dateFin) {
         this.dateFin = dateFin;
-    }
-
-    public double getMontant() {
-        return montant;
-    }
-
-    public void setMontant(double montant) {
-        this.montant = montant;
     }
 
     public String getDescription() {
