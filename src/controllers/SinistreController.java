@@ -34,4 +34,12 @@ public class SinistreController {
     public List<Sinistre> sortSinistreByAmount() {
         return sinistreService.sortSinistreByAmount();
     }
+
+    public List<Sinistre> listSinistresBeforeDate(LocalDate date) {
+        return sinistreService.listSinistresBeforeDate(date);
+    }
+
+    public List<Sinistre> listSinistresAboveCout(double montant) {
+        return sinistreService.listSinistresAboveCout(montant);
+    }
 }

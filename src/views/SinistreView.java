@@ -51,12 +51,10 @@ public class SinistreView {
                     sortSinistreByAmount();
                     break;
                 case 7:
-                    // sinistre after a given date
-                    //listSinistresBeforeDate();
+                    listSinistresBeforeDate();
                     break;
                 case 8:
-                    // sinistre with cout > given amount
-                    //listSinistresAboveCout();
+                    listSinistresAboveCout();
                     break;
                 case 0:
                     System.out.println("Retour au menu principal...");
@@ -131,6 +129,22 @@ public class SinistreView {
         for (Sinistre sinistre : sinistres) {
             printSinistre(sinistre);
         }
+    }
+
+    public void listSinistresBeforeDate() {
+        System.out.print("Enter date (yyyy-MM-dd): ");
+        LocalDate date = LocalDate.parse(scanner.nextLine(), formatter);
+        List<Sinistre> sinistres = controller.listSinistresBeforeDate(date);
+        for (Sinistre sinistre : sinistres) {
+            printSinistre(sinistre);
+        }
+    }
+
+    public void listSinistresAboveCout() {
+        System.out.print("Enter montant: ");
+        double montant = Double.parseDouble(scanner.nextLine());
+        List<Sinistre> sinistres = controller.listSinistresAboveCout(montant);
+        sinistres.forEach(this::printSinistre);
     }
 
     private void printSinistre(Sinistre s) {
