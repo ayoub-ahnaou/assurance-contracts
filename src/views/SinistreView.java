@@ -47,6 +47,17 @@ public class SinistreView {
                 case 5:
                     viewSinistresByContrat();
                     break;
+                case 6:
+                    sortSinistreByAmount();
+                    break;
+                case 7:
+                    // sinistre after a given date
+                    //listSinistresBeforeDate();
+                    break;
+                case 8:
+                    // sinistre with cout > given amount
+                    //listSinistresAboveCout();
+                    break;
                 case 0:
                     System.out.println("Retour au menu principal...");
                     return;
@@ -66,10 +77,13 @@ public class SinistreView {
         System.out.print("Type de sinistre (ACCIDENT_DE_VOITURE, ACCIDENT_DE_MAISON, MALADIE): ");
         TypeSinistre type = TypeSinistre.valueOf(scanner.nextLine().toUpperCase());
 
+        System.out.print("Montant: ");
+        double montant = Double.parseDouble(scanner.nextLine());
+
         System.out.print("ID du contrat: ");
         String contratId = scanner.nextLine();
 
-        controller.addSinistre(id, dateDebut, type, contratId);
+        controller.addSinistre(id, dateDebut, montant, type, contratId);
     }
 
     private void viewSinistreById() {
@@ -112,9 +126,17 @@ public class SinistreView {
         }
     }
 
+    public void sortSinistreByAmount() {
+        List<Sinistre> sinistres = controller.sortSinistreByAmount();
+        for (Sinistre sinistre : sinistres) {
+            printSinistre(sinistre);
+        }
+    }
+
     private void printSinistre(Sinistre s) {
         System.out.println("ID: " + s.getId());
         System.out.println("Date début: " + s.getDateDebut());
+        System.out.println("Montant: " + s.getMontant());
         System.out.println("Type: " + s.getTypeSinistreEnum());
         System.out.println("---------------------------");
     }
