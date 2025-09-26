@@ -26,6 +26,7 @@ public class SinistreView {
             System.out.println("6. Trie sinistres par montant");
             System.out.println("7. Afficher la liste des sinistres qui se sont produits avant une date");
             System.out.println("8. Afficher la liste des sinistres dont le cout est superieur a un montant");
+            System.out.println("9. Les couts totaux des sinistres déclarés d’un client par l'ID du client");
             System.out.println("0. Retour");
             System.out.print("Choisissez une option: ");
 
@@ -55,6 +56,9 @@ public class SinistreView {
                     break;
                 case 8:
                     listSinistresAboveCout();
+                    break;
+                case 9:
+                    couxTotauxDeSinistresByClientId();
                     break;
                 case 0:
                     System.out.println("Retour au menu principal...");
@@ -145,6 +149,13 @@ public class SinistreView {
         double montant = Double.parseDouble(scanner.nextLine());
         List<Sinistre> sinistres = controller.listSinistresAboveCout(montant);
         sinistres.forEach(this::printSinistre);
+    }
+
+    public void couxTotauxDeSinistresByClientId() {
+        System.out.print("Enter ID: ");
+        String id = scanner.nextLine();
+        double coux = controller.couxTotauxDeSinistresByClientId(id);
+        System.out.println("les couts totaux des sinistres déclarés pour le client: " + coux);
     }
 
     private void printSinistre(Sinistre s) {
