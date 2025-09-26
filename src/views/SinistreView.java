@@ -24,6 +24,8 @@ public class SinistreView {
             System.out.println("4. Supprimer un sinistre");
             System.out.println("5. Afficher les sinistres d'un contrat");
             System.out.println("6. Trie sinistres par montant");
+            System.out.println("7. Afficher la liste des sinistres qui se sont produits avant une date");
+            System.out.println("8. Afficher la liste des sinistres dont le cout est superieur a un montant");
             System.out.println("0. Retour");
             System.out.print("Choisissez une option: ");
 
