@@ -1,7 +1,9 @@
 package services;
 
+import daos.ClientDAO;
 import daos.ContratDAO;
 import daos.SinistreDAO;
+import models.Client;
 import models.Contrat;
 import models.Sinistre;
 
@@ -9,10 +11,13 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SinistreService {
     private SinistreDAO sinistreDAO = new SinistreDAO();
+    private ClientDAO clientDAO = new ClientDAO();
+    private ContratDAO contratDAO = new ContratDAO();
 
     public void addSinistre(Sinistre sinistre) {
         try {
@@ -74,5 +79,20 @@ public class SinistreService {
         return sinistres.stream()
                 .filter(sinistre -> sinistre.getMontant() >= montant)
                 .collect(Collectors.toList());
+    }
+
+    public double couxTotauxDeSinistresByClientId(String id) {
+        Client client = clientDAO.getClientById(id).orElseGet(null);
+                //.orElseThrow(() -> new err("Client not found with id: " + id));
+
+        List<Sinistre> sinistres = sinistreDAO.getAllSinistres();
+
+        return sinistres.stream()
+                .filter(s -> {
+                    Contrat contrat = contratDAO.getContratById(s.getContratId()).orElse(null);
+                    return contrat != null && contrat.getClientId().equals(client.getId());
+                })
+                .mapToDouble(Sinistre::getMontant)
+                .sum();
     }
 }

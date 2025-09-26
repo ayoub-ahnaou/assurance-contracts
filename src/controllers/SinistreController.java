@@ -42,4 +42,8 @@ public class SinistreController {
     public List<Sinistre> listSinistresAboveCout(double montant) {
         return sinistreService.listSinistresAboveCout(montant);
     }
+
+    public double couxTotauxDeSinistresByClientId(String id) {
+        return sinistreService.couxTotauxDeSinistresByClientId(id);
+    }
 }
