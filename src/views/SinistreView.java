@@ -23,6 +23,7 @@ public class SinistreView {
             System.out.println("3. Afficher tous les sinistres");
             System.out.println("4. Supprimer un sinistre");
             System.out.println("5. Afficher les sinistres d'un contrat");
+            System.out.println("6. Trie sinistres par montant");
             System.out.println("0. Retour");
             System.out.print("Choisissez une option: ");
 
