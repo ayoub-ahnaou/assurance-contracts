@@ -9,14 +9,16 @@ public class Contrat {
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private String description;
+    private String clientId;
     private Enum<TypeContrat> typeContratEnum;
 
-    public Contrat(String id, LocalDate dateDebut, LocalDate dateFin, String description, TypeContrat typeContratEnum) {
+    public Contrat(String id, LocalDate dateDebut, LocalDate dateFin, String description, TypeContrat typeContratEnum, String clientId) {
         this.id = id;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.description = description;
         this.typeContratEnum = typeContratEnum;
+        this.clientId = clientId;
     }
 
     public String getId() {
@@ -57,5 +59,13 @@ public class Contrat {
 
     public void setTypeContratEnum(Enum<TypeContrat> typeContratEnum) {
         this.typeContratEnum = typeContratEnum;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }
