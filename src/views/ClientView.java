@@ -38,7 +38,7 @@ public class ClientView {
                 case 5: viewClientsByConseiller(); break;
                 case 6: sortClients(); break;
                 case 0:
-                    System.out.println("Bye"); break;
+                    System.out.println("Bye"); return;
                 default: System.out.println("Invalid choice, try again."); break;
             }
         }

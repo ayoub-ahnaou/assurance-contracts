@@ -39,7 +39,7 @@ public class ConseillerView {
                     break;
                 case 0:
                     System.out.println("Retour au menu principal...");
-                    break;
+                    return;
                 default:
                     System.out.println("Option invalide, réessayez.");
                     break;
